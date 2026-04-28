@@ -1,0 +1,7 @@
+CREATE TABLE students (
+      id BIGSERIAL PRIMARY KEY,
+      name VARCHAR(120) NOT NULL,
+      email VARCHAR(160) NOT NULL UNIQUE,
+      birth_date DATE NOT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
