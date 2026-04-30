@@ -1,4 +1,4 @@
-package com.junior.entity;
+package com.junior.student;
 
 import jakarta.persistence.*;
 
@@ -42,4 +42,11 @@ public class StudentEntity {
     public LocalDate getBirthDate () { return birth_date; }
 
     public LocalDateTime getCreatedAt () { return createdAt; }
+
+    public void update (String name, String email, LocalDate birth_date) {
+        this.name = name;
+        this.email = email;
+        this.birth_date = birth_date;
+    }
+
 }

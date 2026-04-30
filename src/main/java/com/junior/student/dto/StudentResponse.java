@@ -1,4 +1,4 @@
-package com.junior.dto;
+package com.junior.student.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

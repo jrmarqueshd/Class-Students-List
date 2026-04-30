@@ -1,7 +1,7 @@
-package com.junior.repository;
+package com.junior.student;
 
-import com.junior.entity.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentsRepository extends JpaRepository<StudentEntity, Long>{
+    boolean existsByEmail(String email);
 }

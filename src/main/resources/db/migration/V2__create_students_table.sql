@@ -1,0 +1,1 @@
+ALTER TABLE students ADD CONSTRAINT uk_students_email UNIQUE (email);

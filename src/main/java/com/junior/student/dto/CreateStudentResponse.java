@@ -1,4 +1,4 @@
-package com.junior.dto;
+package com.junior.student.dto;
 
 public record CreateStudentResponse(
         Long id,

@@ -1,10 +1,11 @@
-package com.junior.controller;
+package com.junior.student;
 
-import com.junior.dto.CreateStudentRequest;
-import com.junior.dto.CreateStudentResponse;
-import com.junior.dto.StudentResponse;
-import com.junior.service.StudentService;
+import com.junior.student.dto.CreateStudentRequest;
+import com.junior.student.dto.CreateStudentResponse;
+import com.junior.student.dto.DeleteStudentResponse;
+import com.junior.student.dto.StudentResponse;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class StudentsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateStudentResponse create (@RequestBody CreateStudentRequest request) {
+    public CreateStudentResponse create (@RequestBody @Valid CreateStudentRequest request) {
         return studentService.create(request);
     }
 
@@ -33,5 +34,15 @@ public class StudentsController {
     @GetMapping("/{id}")
     public StudentResponse getById (@PathVariable Long id) {
         return studentService.getById(id);
+    }
+
+    @PutMapping("/{id}")
+    public StudentResponse updateById (@PathVariable Long id, @RequestBody CreateStudentRequest request) {
+        return studentService.updateById(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public DeleteStudentResponse deleteById (@PathVariable Long id) {
+        return studentService.deleteById(id);
     }
 }
