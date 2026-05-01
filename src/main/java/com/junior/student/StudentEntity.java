@@ -1,7 +1,9 @@
 package com.junior.student;
 
+import com.junior.courses.CourseEntity;
 import com.junior.enrollments.EnrollmentEntity;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,4 +56,7 @@ public class StudentEntity {
         this.birth_date = birth_date;
     }
 
+    public List<EnrollmentEntity> getEnrollments () {
+        return enrollments;
+    }
 }

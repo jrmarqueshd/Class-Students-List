@@ -1,7 +1,6 @@
 package com.junior.courses;
 
 import com.junior.courses.dto.*;
-import com.junior.courses.CoursesRepository;
 import com.junior.shared.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +38,14 @@ public class CourseService {
     public List<CourseResponse> listAll () {
         return coursesRepository.findAll()
                 .stream()
-                .map(CourseEntity::get)
+                .map(CourseEntity::getCourseData)
                 .toList();
     }
 
     public CourseResponse getById (Long id) {
         CourseEntity course = this.getCourseById(id);
 
-        return course.get();
+        return course.getCourseData();
     }
 
     public UpdateCourseResponse updateById (Long id, CreateCourseRequest request) {

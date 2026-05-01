@@ -52,7 +52,7 @@ public class CourseEntity {
         return id;
     }
 
-    public CourseResponse get () {
+    public CourseResponse getCourseData () {
         return new CourseResponse(
                 this.id,
                 this.name,

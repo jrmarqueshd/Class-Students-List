@@ -1,11 +1,11 @@
 package com.junior.student;
 
+import com.junior.courses.CourseEntity;
+import com.junior.courses.dto.CourseResponse;
+import com.junior.enrollments.EnrollmentsRepository;
 import com.junior.shared.exception.EmailAlreadyExistsException;
-import com.junior.student.dto.CreateStudentResponse;
-import com.junior.student.dto.StudentResponse;
+import com.junior.student.dto.*;
 import com.junior.shared.exception.ResourceNotFoundException;
-import com.junior.student.dto.DeleteStudentResponse;
-import com.junior.student.dto.CreateStudentRequest;
 
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,19 @@ import java.util.List;
 public class StudentService {
     private final StudentsRepository studentsRepository;
 
-    public StudentService (StudentsRepository studentsRepository) {
+    private final EnrollmentsRepository enrollmentsRepository;
+
+    private StudentEntity getStudentById (Long id) {
+        return studentsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
+    }
+
+    public StudentService (
+            StudentsRepository studentsRepository,
+            EnrollmentsRepository enrollmentsRepository
+    ) {
         this.studentsRepository = studentsRepository;
+        this.enrollmentsRepository = enrollmentsRepository;
     }
 
     public CreateStudentResponse create (CreateStudentRequest request) {
@@ -89,5 +100,20 @@ public class StudentService {
         studentsRepository.deleteById(student.getId());
 
         return new DeleteStudentResponse(id, "Aluno deletado com sucesso.");
+    }
+
+    public StudentCoursesResponse listStudentCourses (Long id) {
+        StudentEntity student = this.getStudentById(id);
+
+        List<CourseResponse> studentCourses = enrollmentsRepository.findStudentCoursesById(id)
+                .stream()
+                .map(CourseEntity::getCourseData)
+                .toList();
+
+        return new StudentCoursesResponse(
+                student.getId(),
+                student.getName(),
+                studentCourses
+        );
     }
 }

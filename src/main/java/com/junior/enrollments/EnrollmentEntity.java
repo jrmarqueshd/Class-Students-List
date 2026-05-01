@@ -42,4 +42,9 @@ public class EnrollmentEntity {
         this.course = course;
         this.status = status;
     }
+
+
+    public CourseEntity getCourse () {
+        return course;
+    }
 }
