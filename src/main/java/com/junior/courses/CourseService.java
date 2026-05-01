@@ -44,8 +44,7 @@ public class CourseService {
     }
 
     public CourseResponse getById (Long id) {
-        CourseEntity course = coursesRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Curso não encontrado"));
+        CourseEntity course = this.getCourseById(id);
 
         return course.get();
     }
@@ -68,8 +67,7 @@ public class CourseService {
     }
 
     public DeleteCourseResponse deleteById (Long id) {
-        CourseEntity course = coursesRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Curso não encontrado"));
+        CourseEntity course = this.getCourseById(id);
 
         coursesRepository.deleteById(course.getId());
 

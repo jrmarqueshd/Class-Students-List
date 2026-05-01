@@ -1,9 +1,11 @@
 package com.junior.student;
 
+import com.junior.enrollments.EnrollmentEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -21,6 +23,9 @@ public class StudentEntity {
 
     @Column(name  = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "student")
+    private List<EnrollmentEntity> enrollments;
 
     protected StudentEntity () {
     }

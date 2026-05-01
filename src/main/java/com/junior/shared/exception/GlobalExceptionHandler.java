@@ -1,5 +1,7 @@
 package com.junior.shared.exception;
 
+import org.springframework.beans.factory.parsing.Problem;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -74,6 +76,17 @@ public class GlobalExceptionHandler {
         problemDetail.setDetail("Verifique os campos informados na requisição");
         problemDetail.setType(URI.create("/errors/validation-error"));
         problemDetail.setProperty("moreDetails", message);
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail handleDataIntegrityViolationException (DataIntegrityViolationException exception) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+
+        problemDetail.setTitle("Duplicated register");
+        problemDetail.setDetail("Esse cadastro já foi efetuado");
+        problemDetail.setType(URI.create("/errors/already-exists"));
 
         return problemDetail;
     }

@@ -1,6 +1,7 @@
 package com.junior.courses;
 
 import com.junior.courses.dto.CourseResponse;
+import com.junior.enrollments.EnrollmentEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,9 @@ public class CourseEntity {
 
     @Column(name = "updated_at", insertable = true, updatable = true)
     private LocalDateTime updated_at;
+
+    @OneToMany(mappedBy = "course")
+    private List<EnrollmentEntity> enrollments;
 
     protected CourseEntity () {}
 
