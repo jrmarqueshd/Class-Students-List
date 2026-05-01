@@ -1,13 +1,14 @@
 package com.junior.student;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+
 import com.junior.student.dto.CreateStudentRequest;
 import com.junior.student.dto.CreateStudentResponse;
 import com.junior.student.dto.DeleteStudentResponse;
 import com.junior.student.dto.StudentResponse;
-
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

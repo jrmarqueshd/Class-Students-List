@@ -86,7 +86,7 @@ public class StudentService {
         StudentEntity student = studentsRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
 
-        studentsRepository.deleteById(id);
+        studentsRepository.deleteById(student.getId());
 
         return new DeleteStudentResponse(id, "Aluno deletado com sucesso.");
     }
