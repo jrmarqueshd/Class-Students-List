@@ -1,9 +1,8 @@
 package com.junior.student;
 
-import com.junior.courses.CourseEntity;
 import com.junior.enrollments.EnrollmentEntity;
+import com.junior.student.dto.StudentResponse;
 import jakarta.persistence.*;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,10 +49,20 @@ public class StudentEntity {
 
     public LocalDateTime getCreatedAt () { return createdAt; }
 
-    public void update (String name, String email, LocalDate birth_date) {
+    public void updateStudentData (String name, String email, LocalDate birth_date) {
         this.name = name;
         this.email = email;
         this.birth_date = birth_date;
+    }
+
+    public StudentResponse getStudentData () {
+        return new StudentResponse(
+                this.id,
+                this.name,
+                this.email,
+                this.birth_date,
+                this.createdAt
+        );
     }
 
     public List<EnrollmentEntity> getEnrollments () {

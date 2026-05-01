@@ -90,4 +90,26 @@ public class GlobalExceptionHandler {
 
         return problemDetail;
     }
+
+    @ExceptionHandler(CourseHasStudentsException.class)
+    public ProblemDetail handleCourseHasStudentsException (CourseHasStudentsException exception) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+
+        problemDetail.setTitle("Course has students");
+        problemDetail.setDetail("Este curso possui alunos inscritos, cancele o curso antes de excluí-lo.");
+        problemDetail.setType(URI.create("/errors/course-has-students"));
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(StudentHasEnrollmentException.class)
+    public ProblemDetail handleStudentHasEnrollmentException (StudentHasEnrollmentException exception) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+
+        problemDetail.setTitle("Student has enrollment");
+        problemDetail.setDetail(exception.getMessage());
+        problemDetail.setType(URI.create("/errors/studnet-has-enrollment"));
+
+        return problemDetail;
+    }
 }

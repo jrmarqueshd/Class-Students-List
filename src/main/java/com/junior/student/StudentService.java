@@ -4,10 +4,15 @@ import com.junior.courses.CourseEntity;
 import com.junior.courses.dto.CourseResponse;
 import com.junior.enrollments.EnrollmentsRepository;
 import com.junior.shared.exception.EmailAlreadyExistsException;
+import com.junior.shared.exception.StudentHasEnrollmentException;
 import com.junior.student.dto.*;
 import com.junior.shared.exception.ResourceNotFoundException;
 
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,6 +25,12 @@ public class StudentService {
     private StudentEntity getStudentById (Long id) {
         return studentsRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
+    }
+
+    private void studentHasCourses (Long id) {
+        if (enrollmentsRepository.isStudentEnrolled(id)) {
+            throw new StudentHasEnrollmentException();
+        }
     }
 
     public StudentService (
@@ -46,22 +57,25 @@ public class StudentService {
         return new CreateStudentResponse(savedStudent.getId(), "Aluno cadastrado com sucesso.");
     }
 
-    public List<StudentResponse> list () {
-        return studentsRepository.findAll()
-                .stream()
+    public Page<StudentResponse> list (
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return studentsRepository.findAll(pageable)
                 .map(student -> new StudentResponse(
                         student.getId(),
                         student.getName(),
                         student.getEmail(),
                         student.getBirthDate(),
                         student.getCreatedAt()
-                ))
-                .toList();
+                ));
     }
 
     public StudentResponse getById (Long id) {
-        StudentEntity student = studentsRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
+        StudentEntity student = this.getStudentById(id);
 
         return new StudentResponse(
                 student.getId(),
@@ -76,7 +90,7 @@ public class StudentService {
         StudentEntity student = studentsRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
 
-        student.update(
+        student.updateStudentData(
                 request.name(),
                 request.email(),
                 request.birth_date()
@@ -94,8 +108,9 @@ public class StudentService {
     }
 
     public DeleteStudentResponse deleteById (Long id) {
-        StudentEntity student = studentsRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado."));
+        StudentEntity student = this.getStudentById(id);
+
+        this.studentHasCourses(id);
 
         studentsRepository.deleteById(student.getId());
 

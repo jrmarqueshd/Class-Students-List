@@ -52,6 +52,10 @@ public class CourseEntity {
         return id;
     }
 
+    public String getName () {
+        return name;
+    }
+
     public CourseResponse getCourseData () {
         return new CourseResponse(
                 this.id,
